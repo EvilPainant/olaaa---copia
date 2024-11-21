@@ -50,6 +50,11 @@
                 <div class="card-body">
                     <div class="card-body">
                         <div>
+                            <label>Código de barra</label>
+                            <input type="text" id="codigo" name="codigo" class="form-control" maxlength="9" onkeypress="soloNumeros(event)" onblur="verificar(this.id)">
+                            <div id="e-codigo"></div>
+                        </div>
+                        <div>
                             <label>Nombre del producto</label>
                             <input type="text" id="nombre" name="nombre" class="form-control" onblur="verificar(this.id)">
                             <div id="e-nombre"></div>
@@ -72,11 +77,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="stock" class="form-label">Stock</label>
-                            <input type="number" class="form-control" id="stock" name="stock" required>
+                            <input type="number" class="form-control" id="stock" name="stock" required onkeypress="soloNumeros(event)">
                             <div id="e-stock"></div> <!-- Para mostrar errores -->
                         </div>
                     </div>
-                    
                 </div>
                 <div class="card-footer text-center">
                     <input type="button" value="Limpiar" onclick="limpiar()" class="btn btn-info w-25">
@@ -89,6 +93,7 @@
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
                         <tr>
+                            <th>Código de barra</th>
                             <th>Nombre</th>
                             <th>Almacén</th>
                             <th>Categoría</th>

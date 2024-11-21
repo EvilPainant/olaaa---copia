@@ -1,13 +1,23 @@
 // Función de verificación de inputs
 const verificar = (id) => {
-    const input = document.getElementById(id)
-    const div = document.getElementById('e-' + id)
-    input.classList.remove('is-invalid')
-    if (input.value.trim() == '') {
-        input.classList.add('is-invalid')
-        div.innerHTML = '<span class="badge bg-danger">El campo es obligatorio</span>'
+    const input = document.getElementById(id);
+    const div = document.getElementById('e-' + id);
+    input.classList.remove('is-invalid');
+    div.innerHTML = '';
+
+    if (input.value.trim() === '') {
+        input.classList.add('is-invalid');
+        div.innerHTML = '<span class="badge bg-danger">El campo es obligatorio</span>';
+        return;
     }
-}
+
+    // Validación específica para el campo "Código de barra"
+    if (id === 'codigo' && input.value.trim().length !== 9) {
+        input.classList.add('is-invalid');
+        div.innerHTML = '<span class="badge bg-danger">Debe tener exactamente 9 números</span>';
+    }
+};
+
 
 
 
