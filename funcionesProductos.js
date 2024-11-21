@@ -1,4 +1,4 @@
-import { eliminarProducto, getDataProducto, obtenerProducto, saveProducto, updateProducto, getDataCategoria, getDataAlmacen } from "../olaaa - copia/firebase"
+import { eliminarProducto, getDataProducto, obtenerProducto, saveProducto, updateProducto, getDataCategoria, getDataAlmacen } from "./firebase.js"
 
 let id = 0
 
