@@ -1,4 +1,4 @@
-import { eliminarAlmacen, getDataAlmacen, obtenerAlmacen, saveAlmacen, updateAlmacen } from "../firebase.js"
+import { eliminarAlmacen, getDataAlmacen, obtenerAlmacen, saveAlmacen, updateAlmacen } from "./firebase.js"
 
 let id = 0
 //addEventListener me permite capturar un evento 
