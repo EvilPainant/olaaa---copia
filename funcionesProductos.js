@@ -26,26 +26,25 @@ const cargarCategorias = () => {
     });
 };
 
-// Función para manejar la tabla y mostrar nombres en lugar de IDs
 getDataProducto(async (collection) => {
     let tabla = '';
     for (const doc of collection.docs) {
         const item = doc.data();
 
-        // Obtener nombres de almacén y categoría
         const almacenDoc = await obtenerAlmacen(item.almacen);
         const categoriaDoc = await obtenerCategoria(item.categoria);
 
         const nombreAlmacen = almacenDoc.exists() ? almacenDoc.data().nombre : 'Sin asignar';
         const nombreCategoria = categoriaDoc.exists() ? categoriaDoc.data().nombre : 'Sin asignar';
 
-        // Generar la fila de la tabla
         tabla += `<tr>
             <td>${item.codigo}</td>
             <td>${item.nombre}</td>
-            <td>${nombreAlmacen}</td> <!-- Mostrar el nombre del almacén -->
-            <td>${nombreCategoria}</td> <!-- Mostrar el nombre de la categoría -->
+            <td>${nombreAlmacen}</td>
+            <td>${nombreCategoria}</td>
             <td>${item.stock}</td>
+            <td>${item.precio}</td>
+            <td><img src="${item.imagen}" alt="Imagen" style="width: 50px; height: 50px;"></td>
             <td nowrap>
                 <button class="btn btn-warning" id="${doc.id}">Editar</button>
                 <button class="btn btn-danger" id="${doc.id}">Eliminar</button>
@@ -54,7 +53,6 @@ getDataProducto(async (collection) => {
     }
     document.getElementById('contenido').innerHTML = tabla;
 
-    // Lógica para botones de eliminar y editar
     document.querySelectorAll('.btn-danger').forEach(btn => {
         btn.addEventListener('click', () => {
             Swal.fire({
@@ -68,11 +66,7 @@ getDataProducto(async (collection) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     eliminarProducto(btn.id);
-                    Swal.fire({
-                        title: "Eliminado",
-                        text: "Su registro ha sido eliminado",
-                        icon: "success"
-                    });
+                    Swal.fire("Eliminado", "El registro ha sido eliminado", "success");
                 }
             });
         });
@@ -87,27 +81,28 @@ getDataProducto(async (collection) => {
             document.getElementById('almacen').value = d.almacen;
             document.getElementById('categoria').value = d.categoria;
             document.getElementById('stock').value = d.stock;
+            document.getElementById('precio').value = d.precio;
+            document.getElementById('imagen').value = d.imagen;
             document.getElementById('btnGuardar').value = 'Modificar';
             id = btn.id;
         });
     });
 });
 
-// Evento para guardar o actualizar productos
 document.getElementById('btnGuardar').addEventListener('click', () => {
-    document.querySelectorAll('.form-control').forEach(item => {
-        verificar(item.id);
-    });
+    document.querySelectorAll('.form-control').forEach(item => verificar(item.id));
     if (document.querySelectorAll('.is-invalid').length == 0) {
         const producto = {
-            'codigo': document.getElementById('codigo').value.trim(),
-            'nombre': document.getElementById('nombre').value.trim(),
-            'almacen': document.getElementById('almacen').value,
-            'categoria': document.getElementById('categoria').value,
-            'stock': document.getElementById('stock').value.trim()
+            codigo: document.getElementById('codigo').value.trim(),
+            nombre: document.getElementById('nombre').value.trim(),
+            almacen: document.getElementById('almacen').value,
+            categoria: document.getElementById('categoria').value,
+            stock: document.getElementById('stock').value.trim(),
+            precio: document.getElementById('precio').value.trim(),
+            imagen: document.getElementById('imagen').value.trim()
         };
 
-        if (document.getElementById('btnGuardar').value == 'Guardar') {
+        if (document.getElementById('btnGuardar').value === 'Guardar') {
             saveProducto(producto);
             limpiar();
         } else {
@@ -118,7 +113,6 @@ document.getElementById('btnGuardar').addEventListener('click', () => {
     }
 });
 
-// Cargar almacenes y categorías al cargar la página
 window.addEventListener('DOMContentLoaded', () => {
     cargarAlmacenes();
     cargarCategorias();
