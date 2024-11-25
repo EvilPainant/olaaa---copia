@@ -18,7 +18,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Administración
@@ -26,65 +26,37 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
                             <li><a class="dropdown-item" href="almacen.html">Almacenes</a></li>
                             <li><a class="dropdown-item" href="categoria.html">Categorías</a></li>
-                            <li><a class="dropdown-item" href="producto.html">Producto</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarMovimiento" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Movimiento
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarMovimiento">
+                            <li><a class="dropdown-item" href="venta.html">Ventas</a></li>
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li><a class="dropdown-item" href="producto.html">Producto</a></li>
-                </ul>
+                <a href="index.html" class="btn btn-primary ms-auto">Cerrar sesión</a>
             </div>
         </div>
     </nav>
+    
 
     <header class="p-5 text-bg-primary text-center">
         <h1>Listado de Productos</h1>
     </header>
 
+    <div class="text-center my-3">
+        <a href="producto.html" class="btn btn-primary btn-lg">Añadir producto</a>
+    </div>
+
     <main class="container mt-4">
         <div class="row" id="productos-container">
-            <!-- Aquí se insertarán las cartas dinámicamente -->
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module">
-        import { getDataProducto, obtenerAlmacen, obtenerCategoria } from "./firebase.js";
-
-        // Contenedor donde se mostrarán las cartas
-        const productosContainer = document.getElementById('productos-container');
-
-        // Obtener los productos de Firebase
-        getDataProducto(async (collection) => {
-            let contenido = '';
-            for (const doc of collection.docs) {
-                const producto = doc.data();
-
-                // Obtener nombres de almacén y categoría
-                const almacenDoc = await obtenerAlmacen(producto.almacen);
-                const categoriaDoc = await obtenerCategoria(producto.categoria);
-
-                const nombreAlmacen = almacenDoc.exists() ? almacenDoc.data().nombre : 'Sin asignar';
-                const nombreCategoria = categoriaDoc.exists() ? categoriaDoc.data().nombre : 'Sin asignar';
-
-                // Generar contenido para cada carta
-                contenido += `
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">${producto.nombre}</h5>
-                            <p class="card-text"><strong>Código:</strong> ${producto.codigo}</p>
-                            <p class="card-text"><strong>Almacén:</strong> ${nombreAlmacen}</p>
-                            <p class="card-text"><strong>Categoría:</strong> ${nombreCategoria}</p>
-                            <p class="card-text"><strong>Stock:</strong> ${producto.stock}</p>
-                            <p class="card-text"><strong>Precio:</strong> ${producto.precio}</p>
-                        </div>
-                    </div>
-                </div>`;
-            }
-            productosContainer.innerHTML = contenido;
-        });
-    </script>
+    <script src="funcionesCartas.js" type="module"></script>
 </body>
 </html>

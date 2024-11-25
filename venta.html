@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Productos</a>
+            <a class="navbar-brand" href="index.html">Ventas</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,15 +27,11 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarAdmin">
                             <li><a class="dropdown-item" href="almacen.html">Almacenes</a></li>
                             <li><a class="dropdown-item" href="categoria.html">Categorías</a></li>
+                            <li><a class="dropdown-item" href="productoCartas.html">Productos</a></li>
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li><a class="dropdown-item" href="productoCartas.html">Producto</a></li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li><a class="dropdown-item" href="venta.html">Venta</a></li>
-                </ul>
+                <a href="index.html" class="btn btn-primary ms-auto">Cerrar sesión</a>
             </div>
         </div>
     </nav>
@@ -60,7 +56,7 @@
 
                 <div class="mb-3">
                     <label for="cantidad" class="form-label">Cantidad</label>
-                    <input type="number" id="cantidad" class="form-control" placeholder="Cantidad" required>
+                    <input type="number" id="cantidad" class="form-control" min="0" placeholder="Cantidad" required>
                     <div id="e-cantidad"></div>
                 </div>
 
@@ -76,7 +72,7 @@
             </div>
             <div class="card-footer text-center">
                 <input type="button" value="Limpiar" onclick="limpiar()" class="btn btn-info w-25">
-                <input type="button" id="btnGuardar" value="Guardar" class="btn btn-success w-25">
+                <input type="button" id="btnGuardar" value="Vender" class="btn btn-success w-25">
             </div>
         </form>
     </main>
