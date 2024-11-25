@@ -34,6 +34,9 @@
                 <ul class="navbar-nav">
                     <li><a class="dropdown-item" href="productoCartas.html">Producto</a></li>
                 </ul>
+                <ul class="navbar-nav">
+                    <li><a class="dropdown-item" href="venta.html">Venta</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -75,12 +78,12 @@
                     </div>
                     <div>
                         <label>Stock</label>
-                        <input type="number" class="form-control" id="stock" name="stock" placeholder="0" required onkeypress="soloNumeros(event)">
+                        <input type="number" class="form-control" id="stock" name="stock" placeholder="0" min="0" required onkeypress="soloNumeros(event)">
                         <div id="e-stock"></div>
                     </div>
                     <div class="mb-3">
                         <label for="precio" class="form-label">Precio</label>
-                        <input type="number" class="form-control" id="precio" name="precio" placeholder="1000" required onkeypress="soloNumeros(event)">
+                        <input type="number" class="form-control" id="precio" name="precio" placeholder="1000" min="0" required onkeypress="soloNumeros(event)">
                         <div id="e-precio"></div>
                     </div>
                     

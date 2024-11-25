@@ -120,3 +120,30 @@ export const updateProducto = (id, producto) => {
 };
 
 
+
+
+export const saveVenta = (venta) => {
+    addDoc(collection(db, 'Ventas'), venta)
+    .then(() => {
+        console.log("Venta guardada exitosamente");
+    })
+    .catch((error) => {
+        console.error("Error guardando la venta: ", error);
+    });
+};
+
+// Función para actualizar el stock de un producto
+export const updateProductoStock = (productoId, nuevoStock) => {
+    const productoRef = doc(db, 'Producto', productoId);
+
+    // Actualizar el stock en la base de datos
+    updateDoc(productoRef, {
+        stock: nuevoStock
+    })
+    .then(() => {
+        console.log(`Stock actualizado para el producto ${productoId}: ${nuevoStock}`);
+    })
+    .catch((error) => {
+        console.error("Error actualizando el stock: ", error);
+    });
+};
