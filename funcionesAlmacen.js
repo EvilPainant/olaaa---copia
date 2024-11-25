@@ -1,47 +1,43 @@
-import { eliminarAlmacen, getDataAlmacen, obtenerAlmacen, saveAlmacen, updateAlmacen } from "./firebase.js"
+import { eliminarAlmacen, getDataAlmacen, obtenerAlmacen, saveAlmacen, updateAlmacen } from "./firebase.js";
 
-let id = 0
-//addEventListener me permite capturar un evento 
+let id = 0; // Variable global para almacenar el ID del almacén seleccionado
+
+// Agregar evento al botón Guardar
 document.getElementById('btnGuardar').addEventListener('click', () => {
-    document.querySelectorAll('.form-control').forEach(item => {
-        verificar(item.id)
-    })
-    if (document.querySelectorAll('.is-invalid').length == 0) {
-        if (document.getElementById('btnGuardar').value == 'Guardar') {
-            const almacen = {
-                'nombre': document.getElementById('nombre').value.trim()
-            }
-            saveAlmacen(almacen)
-            limpiar()
-        }else{
-            const almacen = {
-                'nombre': document.getElementById('nombre').value.trim()
-            }
-            //se invoca la función para actualizar
-            updateAlmacen(id,almacen)
-            limpiar()
-            //volver al estado inciial la variable de i 
-            id = 0
+    document.querySelectorAll('.form-control').forEach(item => verificar(item.id));
+    if (document.querySelectorAll('.is-invalid').length === 0) {
+        const almacen = {
+            nombre: document.getElementById('nombre').value.trim(),
+        };
+        if (document.getElementById('btnGuardar').value === 'Guardar') {
+            saveAlmacen(almacen); // Guardar nuevo almacén
+            limpiar();
+        } else {
+            updateAlmacen(id, almacen); // Modificar almacén existente
+            limpiar();
+            id = 0; // Reinicia el ID seleccionado
         }
     }
-})
-//DOMEventLister es un evento que se ejecuta cuando se recarga la página 
+});
+
+// Evento para cargar datos al inicio
 window.addEventListener('DOMContentLoaded', () => {
     getDataAlmacen((collection) => {
-        let tabla = ''
-        //se recorre la colección y se crear el item doc para mostrar los datos
+        let tabla = '';
         collection.forEach((doc) => {
-            const item = doc.data()
+            const item = doc.data();
             tabla += `<tr>
-            <td>${item.nombre}</td>
-            <td nowrap>
-                <button class="btn btn-warning" id="${doc.id}">Editar</button>
-                <button class="btn btn-danger" id="${doc.id}">Eliminar</button>
-            </td>
-        </tr>`
-        })
-        document.getElementById('contenido').innerHTML = tabla
-        //recorrer todos los botón y eliminar
+                <td>${item.nombre}</td>
+                <td nowrap>
+                    <button class="btn btn-warning" id="${doc.id}">Editar</button>
+                    <button class="btn btn-danger" id="${doc.id}">Eliminar</button>
+                </td>
+            </tr>`;
+        });
+
+        document.getElementById('contenido').innerHTML = tabla;
+
+        // Botones eliminar
         document.querySelectorAll('.btn-danger').forEach(btn => {
             btn.addEventListener('click', () => {
                 Swal.fire({
@@ -54,34 +50,25 @@ window.addEventListener('DOMContentLoaded', () => {
                     confirmButtonText: "Eliminar"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        //añadir sweetalert para confirmar la eliminación
-                        eliminarAlmacen(btn.id)
-                        Swal.fire({
-                            title: "Eliminado",
-                            text: "Su registro ha sido eliminado",
-                            icon: "success"
-                        })
+                        eliminarAlmacen(btn.id);
+                        Swal.fire("Eliminado", "El registro ha sido eliminado", "success");
+                        limpiar();
+                        id = 0; // Reinicia el ID seleccionado
+                        document.getElementById('btnGuardar').value = 'Guardar'; // Asegura el estado del botón
                     }
-                })
-            })
-        })
+                });
+            });
+        });
 
-        //seleccionar el documento
-        document.querySelectorAll('.btn-warning').forEach( btn => {
-            //async indica que necesitamos un await para esperar a que la función responda
-            btn.addEventListener('click',async() =>{
-                //invocar función para buscar el documento por su id
-                const doc = await obtenerAlmacen(btn.id)
-                //obtener los valores del documento
-                const d = doc.data()
-                //asignar los valores a los input
-                document.getElementById('nombre').value = d.nombre
-                //modificar el valor del botón 
-                document.getElementById('btnGuardar').value = 'Modificar'
-                //asignar el id del documento a nuestra variable
-                id = btn.id
-            })
-        })
-
-    })
-})
+        // Botones editar
+        document.querySelectorAll('.btn-warning').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const doc = await obtenerAlmacen(btn.id);
+                const d = doc.data();
+                document.getElementById('nombre').value = d.nombre;
+                document.getElementById('btnGuardar').value = 'Modificar'; // Cambia el botón a "Modificar"
+                id = btn.id; // Guarda el ID del documento seleccionado
+            });
+        });
+    });
+});

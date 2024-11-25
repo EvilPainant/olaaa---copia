@@ -56,11 +56,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (result.isConfirmed) {
                         //añadir sweetalert para confirmar la eliminación
                         eliminarCategoria(btn.id)
-                        Swal.fire({
-                            title: "Eliminado",
-                            text: "Su registro ha sido eliminado",
-                            icon: "success"
-                        })
+                        Swal.fire("Eliminado", "El registro ha sido eliminado", "success");
+                        limpiar();
+                        id = 0; // Reinicia el ID seleccionado
+                        document.getElementById('btnGuardar').value = 'Guardar';
                     }
                 })
             })

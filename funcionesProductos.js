@@ -65,12 +65,18 @@ getDataProducto(async (collection) => {
                 confirmButtonText: "Eliminar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    eliminarProducto(btn.id);
+                    eliminarProducto(btn.id); // Elimina el producto
                     Swal.fire("Eliminado", "El registro ha sido eliminado", "success");
+    
+                    // Restablecer el formulario y el botón Guardar
+                    limpiar(); // Asegura que todos los campos se vacíen
+                    id = 0; // Reinicia la variable `id` a su estado inicial
+                    document.getElementById('btnGuardar').value = 'Guardar'; // Cambia el texto del botón a 'Guardar'
                 }
             });
         });
     });
+    
 
     document.querySelectorAll('.btn-warning').forEach(btn => {
         btn.addEventListener('click', async () => {
